@@ -9,9 +9,11 @@ L=dict
 G=Exception
 E=print
 from flask import Flask,request as C,jsonify as A,send_file as Z
-import requests as N,json as D,ipaddress as I,secrets as F,base64 as a,time as O,sqlite3 as P,random as H,os,string as Q
+import os
+import requests as N,json as D,ipaddress as I,secrets as F,base64 as a,time as O,sqlite3 as P,random as H,string as Q
 R=True
-S='/data/userdata.db'
+S='/tmp/userdata.db'
+os.makedirs('/tmp',exist_ok=True)
 def b():conn=P.connect(S);cur=conn.cursor();cur.execute('\n        CREATE TABLE IF NOT EXISTS users (\n            ip TEXT PRIMARY KEY,\n            username TEXT NOT NULL,\n            custom_id TEXT NOT NULL,\n            create_time REAL NOT NULL\n        )\n    ');cur.execute('\n        CREATE TABLE IF NOT EXISTS banned_ips (\n            ip TEXT PRIMARY KEY\n        )\n    ');conn.commit();conn.close()
 B=Flask(__name__)
 b()
@@ -24,7 +26,7 @@ def i(response):
 def c():return'Player'+''.join(H.choices(Q.ascii_uppercase,k=6))
 def T():
 	try:
-		with open('/data/json/econ_gameplay_items.json','r')as f:data=D.load(f)
+		with open('/opt/render/project/src/json/econ_gameplay_items.json','r')as f:data=D.load(f)
 		item_ids=[item['id']for item in data if'id'in item]
 	except G as e:E(f"Failed to load econ_gameplay_items.json: {e}");item_ids=['item_jetpack','item_flaregun','item_dynamite','item_tablet','item_flashlight_mega','item_plunger','item_crossbow','item_revolver','item_shotgun','item_pickaxe']
 	children=[]
@@ -121,37 +123,37 @@ def v():
 @B.route('/v2/storage/econ_gameplay_items',methods=['GET','POST','PUT','DELETE','PATCH','OPTIONS'])
 def w():
 	try:
-		with open('/data/json/econ_gameplay_items.json','r')as f:data=D.load(f)
+		with open('/opt/render/project/src/json/econ_gameplay_items.json','r')as f:data=D.load(f)
 		return A({'payload':D.dumps(data)})
 	except G as e:E(f"Failed to load econ_gameplay_items.json: {e}");return A(h)
 @B.route('/v2/storage/econ_avatar_items',methods=['GET','POST','PUT','DELETE','PATCH','OPTIONS'])
 def w2():
 	try:
-		with open('/data/json/econ_avatar_items.json','r')as f:data=D.load(f)
+		with open('/opt/render/project/src/json/econ_avatar_items.json','r')as f:data=D.load(f)
 		return A({'payload':D.dumps(data)})
 	except G as e:E(f"Failed: {e}");return A({'payload':'[]'})
 @B.route('/v2/storage/econ_research_nodes',methods=['GET','POST','PUT','DELETE','PATCH','OPTIONS'])
 def w3():
 	try:
-		with open('/data/json/econ_research_nodes.json','r')as f:data=D.load(f)
+		with open('/opt/render/project/src/json/econ_research_nodes.json','r')as f:data=D.load(f)
 		return A({'payload':D.dumps(data)})
 	except G as e:E(f"Failed: {e}");return A({'payload':'[]'})
 @B.route('/v2/storage/econ_mining_ores',methods=['GET','POST','PUT','DELETE','PATCH','OPTIONS'])
 def w4():
 	try:
-		with open('/data/json/econ_mining_ores.json','r')as f:data=D.load(f)
+		with open('/opt/render/project/src/json/econ_mining_ores.json','r')as f:data=D.load(f)
 		return A({'payload':D.dumps(data)})
 	except G as e:E(f"Failed: {e}");return A({'payload':'[]'})
 @B.route('/v2/storage/econ_products',methods=['GET','POST','PUT','DELETE','PATCH','OPTIONS'])
 def w5():
 	try:
-		with open('/data/json/econ_products.json','r')as f:data=D.load(f)
+		with open('/opt/render/project/src/json/econ_products.json','r')as f:data=D.load(f)
 		return A({'payload':D.dumps(data)})
 	except G as e:E(f"Failed: {e}");return A({'payload':'[]'})
 @B.route('/v2/storage/econ_stash_upgrades',methods=['GET','POST','PUT','DELETE','PATCH','OPTIONS'])
 def w6():
 	try:
-		with open('/data/json/econ_stash_upgrades.json','r')as f:data=D.load(f)
+		with open('/opt/render/project/src/json/econ_stash_upgrades.json','r')as f:data=D.load(f)
 		return A({'payload':D.dumps(data)})
 	except G as e:E(f"Failed: {e}");return A({'payload':'[]'})
 @B.route('/v2/rpc/mining.balance',methods=['GET','POST'])
